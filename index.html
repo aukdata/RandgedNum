@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>RandgedNum</title>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="viewport" content="initial-scale=1"/>
+    <style>
+        html, body {
+            height: 100%;
+            background-color: lightgray;
+        }
+
+        div.module {
+            background-color: white;
+            margin: 5px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        #contents {
+            margin: auto;
+            width: 50%;
+            height: 100%;
+        }
+        #title, #description {
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+	<div id="contents">
+        <h1 id="title">ランダムな数を生成するだけ</h1>
+
+        <div id="description">
+            <p>
+                指定された範囲と個数の、重複しない乱数を生成します。
+            </p>
+        </div>
+
+        <div id="operator" class="module">
+            <form name="values">
+                <p>範囲: <input name="range_min" type="text" value="1"/>〜<input id="range_max" type="text" value="16"/></p>
+                <p>個数: <input name="count" type="text" value="4"/></p>
+                <input id="calc" type="button" value="実行"/>
+            </form>
+        </div>
+
+        <div id="display" class="module">
+            <p id="result">値: </p>
+        </div>
+	</div>
+
+    <script>
+        document.getElementById("calc").onclick = function() {
+            let form = document.forms.values;
+            const log = console.log;
+            const min = Number(form.range_min.value);
+            const max = Number(form.range_max.value);
+            const count = Number(form.count.value);
+            log("min / max / count = " + min + " / " + max + " / " + count);
+
+            if(min >= max) {
+                alert("最小値は最大値よりも小さい必要があります。");
+                return;
+            }
+            if(max - min + 1 < count) {
+                alert("範囲に対して個数が多すぎます。");
+                return;
+            }
+
+            const range = (max - min + 1) / count;
+            log("range = " + range);
+
+            let results = "値: ";
+
+            let pmin = min;
+            let pmax = pmin + range - 1;
+            for(;pmax <= max;) {
+                log("pmin / pmax = " + pmin + " / " + pmax);
+                results += Math.floor(Math.random() * (pmax - pmin + 1) + pmin) + " ";
+                pmin = pmax + 1;
+                pmax = pmin + range - 1;
+            }
+
+            document.getElementById("result").innerHTML = results;
+        }
+    </script>
+</body>
+
+</html>
