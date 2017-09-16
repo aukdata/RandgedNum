@@ -2,10 +2,10 @@
 <html>
 
 <head>
-	<title>RandgedNum</title>
+    <title>RandgedNum</title>
 
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	<meta name="viewport" content="initial-scale=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="initial-scale=1"/>
     <style>
         html, body {
             height: 100%;
@@ -21,17 +21,17 @@
 
         #contents {
             margin: auto;
-            width: 50%;
+            width: 100%;
             height: 100%;
         }
         #title, #description {
-            margin: auto;
+            text-align: center;
         }
     </style>
 </head>
 
 <body>
-	<div id="contents">
+    <div id="contents">
         <h1 id="title">ランダムな数を生成するだけ</h1>
 
         <div id="description">
@@ -51,7 +51,7 @@
         <div id="display" class="module">
             <p id="result">値: </p>
         </div>
-	</div>
+    </div>
 
     <script>
         document.getElementById("calc").onclick = function() {
@@ -66,6 +66,10 @@
                 alert("最小値は最大値よりも小さい必要があります。");
                 return;
             }
+            if(count <= 0 || count - Math.floor(count) != 0) {
+                alert("個数には1以上の整数を入力してください。");
+                return;
+            }
             if(max - min + 1 < count) {
                 alert("範囲に対して個数が多すぎます。");
                 return;
@@ -77,15 +81,19 @@
             let results = "値: ";
 
             let pmin = min;
-            let pmax = pmin + range - 1;
-            for(;pmax <= max;) {
+            let pmax = min + range - 0.0001;
+            for(let i=0 ; i < count ; ++i) {
                 log("pmin / pmax = " + pmin + " / " + pmax);
-                results += Math.floor(Math.random() * (pmax - pmin + 1) + pmin) + " ";
-                pmin = pmax + 1;
-                pmax = pmin + range - 1;
+                let num = Math.random() * (pmax - pmin) + pmin;
+                log(">" + num);
+                results += Math.floor(num) + " ";
+
+                pmin = Math.ceil(num);
+                pmax = pmax + range;
             }
 
             document.getElementById("result").innerHTML = results;
+            log("_/_/_/_/_/_/_/_/_/_/");
         }
     </script>
 </body>
